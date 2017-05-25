@@ -1,1 +1,24 @@
-1DD41580D411E8112B2720B51303B55425626BFA
+sha1:1DD41580D411E8112B2720B51303B55425626BFA
+PE analysis:
+  file header:
+    Machines: 014C or intel 386
+    NumberOfSections : 3h
+    SizeOfOptionalHeader : E0h
+  optional header:
+  RVA = virtual address – base address 
+    ImageBase: 00400000
+    SectionAllignment: 00001000
+    FileAlignment: 00000200
+    MajorSubSystemVersion: 0004
+    SizeOfImage: 00048000
+    NumberOfRvaAndSizes: 00000010
+    DataDirectories:
+  sections:
+    .data : {offset:1000h, raw_size:3F800h}
+    .pifrffy : {offset:41000h, raw_size:4000h}, this section is all null, *NOTE dont know why ?
+    no_name {offset:45000,raw_size:2600h}, it contains lots of windows functins
+    
+  DIE result:
+     compiler : MS visual C++ 6.0 [msvcrt]
+     linker : MS linker 6.0
+     not packed, *GOOD news
