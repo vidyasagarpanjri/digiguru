@@ -1,0 +1,63 @@
+'''Public key Cryptography 
+      features : it will provide authenticatoin and encryption.
+How ?
+      any person can encrypt a message using the public key of the receiver, 
+      but such a message can be decrypted only with the receiver's private key.
+      The strength of a public key cryptography system relies on the degree of 
+      difficulty (computational impracticality) for a properly generated 
+      private key to be determined from its corresponding public key. [https://en.wikipedia.org/wiki/Public-key_cryptography] 
+      
+      
+    Public key encryption, in which a message is encrypted with a recipient's public key. 
+    The message cannot be decrypted by anyone who does not possess the matching private key, 
+    who is thus presumed to be the owner of that key and the person associated with the public key. 
+    This is used in an attempt to ensure confidentiality.
+    
+    Digital signatures, in which a message is signed with the sender's private key and can be verified by anyone 
+    who has access to the sender's public key. This verification proves that the sender had access to the private key, 
+    and therefore is likely to be the person associated with the public key. 
+    This also ensures that the message has not been tampered with, 
+    as a signature is mathematically bound to the message it originally was made with, 
+    and verification will fail for practically any other message, no matter how similar to the original message.
+'''
+
+###VidyaSagaR###
+class ToyRSA:
+    def __init__(self,a,b):
+        self.p= a
+        self.q=b
+        self.N=a*b
+        self.O = (a-1)*(b-1)
+    @property
+    def publicKeyE(self):
+        return self._publicKeyE
+    def find_prime_factors(self):
+        l=[]
+        print("The factors of",self.O,"are:")
+        for i in range(2,self.O+1):
+            if i > 1:
+                for j in range(2,i):
+                    if i%j == 0:
+                        break
+                else:
+                    l.append(i)
+        return l
+    def inv_mod(self):
+        for i in range(1,self.O+1):
+            if ((self.publicKeyE*i) % self.O)==1:
+                return i
+
+    def encryption(self,m,e,N):
+        return ((m**e) % N)
+
+    def decryption(self,c,d,N):
+        return (c**d) % N
+
+Tr = ToyRSA(11,13)
+#find factors
+print Tr.find_prime_factors()
+Tr.publicKeyE = 17
+print "Public Key :  (%d,%d)"%(Tr.N,Tr.publicKeyE)
+print "Private Key : (%d,%d)"%(Tr.N,Tr.inv_mod())
+print "Encrypterd Message : ",Tr.encryption(67,Tr.publicKeyE,Tr.N)
+print "Encrypterd Message : ",Tr.decryption(Tr.encryption(67,Tr.publicKeyE,Tr.N),Tr.inv_mod(),Tr.N)
