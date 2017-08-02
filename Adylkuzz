@@ -1,0 +1,49 @@
+it has an anit-debugger functoin  "IsDebuggerPresent"
+file is UPX 3.91 packed, you can easily unapck it, it was obfuscated mainly to bypass the firewall.
+
+it spawned several processes:
+  1. cmd.exe: uses netsh.exe to set the IPSec policy 
+  2. netsh.exe: "C:\Windows\system32\cmd.exe /c netsh ipsec static importpolicy c:\\os.ipsec"
+              os.ipsec is an exported policy file, which will allow any traffic to smb port 445.
+              and another rule will allow certain malicious IPs to make communication of any type.
+              ^^^ use MMC.exe to explore IPsec rules.^^^
+  3. netsh ipsec static set policy name=445 assign=y
+              you noticed if the we malware had used static way to update the rule, 
+              what it means is new settings will take place when assign=y command is executed 
+              
+  4. cmdline using sc.exe process :sc  config wuauserv start= disabled
+              it will disable the window service in order to avoid any patch or update.
+  5.cmdline using net.exe : C:\Windows\system32\cmd.exe /c net stop wuauserv
+              process will stop the update service. 
+  ^^^ funFact : only diff between net1.exe and net.exe is that nothing.
+                net1.exe was introduced to overvome Y2K issue, then for reverse compatibility it is there.
+  6. wmsa.exe: another process is created
+              7: it executed C:\Windows\system32\cmd.exe /c taskkill /f /im hdmanager.exe
+              it will forcefully terminate the hdmanager.exe.
+            8. it will execute : C:\Windows\system32\cmd.exe /c taskkill /f /im mmc.exe
+               to kill the mmc.exe which is used for settin gIPsec policy
+            9. C:\Windows\system32\cmd.exe /c sc stop WHDMIDE
+                  it will stop WHDMIDE service
+            10. C:\Windows\system32\cmd.exe /c sc delete WHDMIDE 
+                  after stoping the service, it was deleted 
+            11. C:\Windows\system32\cmd.exe /c taskkill /f /im hdmanager.exe duplicate cmd
+            12. C:\Windows\system32\cmd.exe /c net user IUSR_ADMIN /del
+                    IUSR_ADMIN user is deleted
+                   IUSR is simply out of the box guest accounts that have permissions over c:\inetpub\wwwroot by default.
+            13. C:\Windows\system32\cmd.exe /c taskkill /f /im update64.exe, you can guess ;)
+            14. C:\Windows\system32\cmd.exe /c del /f /s /q c:\\widnows\dell\\svchost.exe 
+                C:\Windows\system32\cmd.exe /c del /f /s /q c:\\widnows\dell\\run.bat
+                C:\Windows\system32\cmd.exe /c del /f /s /q c:\\widnows\dell\\update64.exe
+                C:\Windows\system32\cmd.exe /c del /f /s /q c:\\widnows\dell\\run64.bat
+                  wants to delet the svchost.exe at user defined location, not found, may be to remove other miner exe
+            15. attrib  +h +s c:\\widnows\\Wmsa.dll
+                making Wmsa.dll hidden and system file
+            16. C:\Windows\system32\cmd.exe /c attrib +h +s c:\\widnows\\Prefetch\\wuauser.exe
+                wuauser.exe is hidden in prefetch folder as system file
+             17. C:\Windows\system32\cmd.exe /c secedit /configure /db c:\\netbois.sdb
+                  
+                  
+  
+Visible Windows:
+  1. process ping.exe is pinging to localhost.
+downloads a file from "http://am[.]super1024[.]com/86.exe"
