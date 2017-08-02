@@ -40,10 +40,25 @@ it spawned several processes:
                 making Wmsa.dll hidden and system file
             16. C:\Windows\system32\cmd.exe /c attrib +h +s c:\\widnows\\Prefetch\\wuauser.exe
                 wuauser.exe is hidden in prefetch folder as system file
-             17. C:\Windows\system32\cmd.exe /c secedit /configure /db c:\\netbois.sdb
-                  
+            17. C:\Windows\system32\cmd.exe /c secedit /configure /db c:\\netbois.sdb
+                Allows you to configure a system with security settings stored in a database netbios.sdb
+            18. cmd /c  C:\Users\worker\AppData\Local\Temp\selfkill.bat /max
+                a. taskkill  /f /im d.exe killed d.exe, which was not started in my system.
+                b. ping to localhost
+      
+      C:\Windows\Prefetch\wuauser.exe --server     
+      it is started as system user,
+      all its doing at process level is killing the hdmanager.exe process 
+        
+      at last C:\Windows\System32\svchost.exe -k netsvcs is started 
+                  rundll32.exe c:\windows\wmsa.dll, XiaoDeBu WMSA is   
+      dll is all we have at last running with XiaoDeBu WMSA
+              
                   
   
 Visible Windows:
   1. process ping.exe is pinging to localhost.
 downloads a file from "http://am[.]super1024[.]com/86.exe"
+
+registry entry 
+HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\services\WMSA is configured with wsma.dll
